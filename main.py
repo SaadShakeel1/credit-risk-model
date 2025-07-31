@@ -2,7 +2,7 @@ import streamlit as st
 from prediction_helper import predict
 
 st.set_page_config(page_title="LoanRisk Detector Modelling", page_icon="📊")
-st.title("📊 LoanRisk Detector")
+st.title("LoanRisk Detector")
 
 row1 = st.columns(3)
 row2 = st.columns(3)
@@ -10,7 +10,7 @@ row3 = st.columns(3)
 row4 = st.columns(3)
 
 with row1[0]:
-    age = st.number_input('Age', min_value=18, max_value=100, value=28, step=1)
+    age = st.number_input('Age', min_value=18, max_value=100, step=1, value=28)
 with row1[1]:
     income = st.number_input('Income', min_value=0, value=1200000)
 with row1[2]:
@@ -18,19 +18,20 @@ with row1[2]:
 
 loan_to_income_ratio = loan_amount / income if income > 0 else 0
 with row2[0]:
-    st.metric(label="Loan to Income Ratio", value=f"{loan_to_income_ratio:.2f}")
+    st.text("Loan to Income Ratio:")
+    st.text(f"{loan_to_income_ratio:.2f}")
 
 with row2[1]:
-    loan_tenure_months = st.number_input('Loan Tenure (months)', min_value=0, value=36, step=1)
+    loan_tenure_months = st.number_input('Loan Tenure (months)', min_value=0, step=1, value=36)
 with row2[2]:
-    avg_dpd_per_delinquency = st.number_input('Average DPD', min_value=0, value=20)
+    avg_dpd_per_delinquency = st.number_input('Avg DPD', min_value=0, value=20)
 
 with row3[0]:
-    delinquency_ratio = st.number_input('Delinquency Ratio (%)', min_value=0, max_value=100, value=30)
+    delinquency_ratio = st.number_input('Delinquency Ratio (%)', min_value=0, max_value=100, step=1, value=30)
 with row3[1]:
-    credit_utilization_ratio = st.number_input('Credit Utilization Ratio (%)', min_value=0, max_value=100, value=30)
+    credit_utilization_ratio = st.number_input('Credit Utilization Ratio (%)', min_value=0, max_value=100, step=1, value=30)
 with row3[2]:
-    num_open_accounts = st.number_input('Number of Open Accounts', min_value=1, max_value=4, value=2, step=1)
+    num_open_accounts = st.number_input('Open Loan Accounts', min_value=1, max_value=4, step=1, value=2)
 
 with row4[0]:
     residence_type = st.selectbox('Residence Type', ['Owned', 'Rented', 'Mortgage'])
@@ -46,7 +47,7 @@ if st.button('Calculate Risk'):
         residence_type, loan_purpose, loan_type
     )
 
-    st.subheader("📈 Prediction Results")
-    st.write(f"**Default Probability:** {probability:.2%}")
-    st.write(f"**Credit Score:** {credit_score}")
-    st.write(f"**Rating:** {rating}")
+    st.subheader("Prediction Result")
+    st.write(f"Default Probability: {probability:.2%}")
+    st.write(f"Credit Score: {credit_score}")
+    st.write(f"Rating: {rating}")
